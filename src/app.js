@@ -2,7 +2,7 @@ module.exports = {
   route: route
 };
 
-var skills = require('./skills.js')
+var userdata = require('./userdata.js')
 
 
 function route(req, context){
@@ -15,11 +15,11 @@ function route(req, context){
 
   }
   switch(req.resource){
-    case "getSkills":
-    skills.get(req, context, handleResponse);
+    case "getUserData":
+    userdata.get(req, context, handleResponse);
     break;
-    case "updateSkills":
-    skills.update(req, context, handleResponse);
+    case "updateUserData":
+    userdata.update(req, context, handleResponse);
     break;
     // case "getQuestions":
     // QuestionsService.getQuestions(req, context, handleResponse);
