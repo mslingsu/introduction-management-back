@@ -1,0 +1,14 @@
+{
+  "name": "intro-ling-lambda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ling Su",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.101.0"
+  }
+}
