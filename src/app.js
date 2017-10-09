@@ -3,7 +3,7 @@ module.exports = {
 };
 
 var userdata = require('./userdata.js')
-
+var subscribe = require('./subscribe.js')
 
 function route(req, context){
   function handleResponse(error, response, body){
@@ -20,6 +20,9 @@ function route(req, context){
     break;
     case "updateUserData":
     userdata.update(req, context, handleResponse);
+    break;
+    case "subscribe":
+    subscribe.add(req, context, handleResponse);
     break;
     // case "getQuestions":
     // QuestionsService.getQuestions(req, context, handleResponse);

@@ -1,34 +1,20 @@
-var skills = require("./src/skills.js")
-var app = require("./src/app.js")
+var subscribe = require('./src/subscribe.js')
+var app = require('./src/app.js')
 
-function testskills(){
-  var context = {}
-  var req = {
-"body-json": {
-   "skills": [{
-     "skill": "foo",
-     "details": "bar",
-     "order": 200
-   },
-   {
-     "skill": "foo1",
-     "details": "bar1"
-   },
-{
-  "skill": "JavaScript",
-  "details": "Nodejs, vue.js",
-  "order": 2
-}]
-}
+function testsubscribe() {
+req = {
+  "resource": "subscribe",
+  "body-json": {
+    "email": "sl_62469430@hotmail.com"
   }
-  skills.update(req, context, function(err, response, data){
-    if (err){
-      console.log(err);
-    } else {
-      console.log("DATA", data);
-    }
-  })
+}
+context = {}
+// app.route(req, context)
+subscribe.add(req, context, function(err, response, data){
+
+})
 
 }
 
-testskills()
+// testskills()
+testsubscribe()
