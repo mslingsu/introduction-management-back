@@ -1,6 +1,12 @@
 var subscribe = require('./src/subscribe.js')
 var app = require('./src/app.js')
+// var Canvas = require('canvas')
+var AWS = require("aws-sdk");
+AWS.config.update({
+  region: "us-west-2"
+});
 
+var s3 = new AWS.S3();
 function testsubscribe() {
 req = {
   "resource": "subscribe",
@@ -16,5 +22,7 @@ subscribe.add(req, context, function(err, response, data){
 
 }
 
+
 // testskills()
-testsubscribe()
+// testsubscribe()
+testPic()

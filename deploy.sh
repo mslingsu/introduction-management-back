@@ -8,5 +8,6 @@ read
 
 aws lambda update-function-code \
    --function-name "${AWS_LAMBDA_FUNCTION_NAME}" \
+   --region "us-west-2" \
    --zip-file "fileb://${CODE_PATH}" \
    --publish

@@ -36,6 +36,7 @@ function getItem(queryid, callback) {
 
 function update(req, context, callback) {
   var body = req['body-json']
+  var summary = body.summary
   var skills = body.skills
   var education = body.education
   var experiences = body.experiences
@@ -47,6 +48,9 @@ function update(req, context, callback) {
     if(data[0]){
       var userdata = data[0]
       console.log("userdata: ", userdata)
+      if(!summary){
+        summary = userdata.summary
+      }
       if(!skills){
         skills = userdata.skills
       }
@@ -68,6 +72,7 @@ function update(req, context, callback) {
       TableName: 'introling-userdata',
       Item: {
         "userid": body.id,
+        "summary": summary,
         "skills": skills,
         "education": education,
         "experiences": experiences,
