@@ -9,6 +9,7 @@
   "author": "Ling Su",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.101.0"
+    "aws-sdk": "^2.101.0",
+    "docx": "^4.1.0"
   }
 }

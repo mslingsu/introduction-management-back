@@ -22,7 +22,22 @@ subscribe.add(req, context, function(err, response, data){
 
 }
 
+function testExport() {
+  req = {
+    "resource": "download",
+    "params": {
+      "querystring": {
+        "id": "mslingsu"
+      }
+  }
+}
+context = {}
+app.route(req, context, function(err, data){
+  
+})
+}
 
+
+testExport()
 // testskills()
 // testsubscribe()
-testPic()

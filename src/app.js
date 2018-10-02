@@ -3,6 +3,7 @@ module.exports = {
 };
 
 var userdata = require('./userdata.js')
+var exportCV = require('./export.js')
 var subscribe = require('./subscribe.js')
 
 function route(req, context){
@@ -23,6 +24,9 @@ function route(req, context){
     break;
     case "subscribe":
     subscribe.add(req, context, handleResponse);
+    break;
+    case "download":
+    exportCV.exportCV(req, context, handleResponse);
     break;
     // case "getQuestions":
     // QuestionsService.getQuestions(req, context, handleResponse);
