@@ -29,6 +29,7 @@ function exportCV(req, context, callback){
           }
           else {
             var url = s3.getSignedUrl('getObject', {Bucket: "introduce-ling-thumb", Key: filename, Expires: 120});
+            console.log(url);
             callback(null, null, url);
           }
         })

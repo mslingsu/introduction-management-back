@@ -12,8 +12,8 @@ function create(data) {
     const document = new Document();
     debugger
     document.addParagraph(new Paragraph(summary.name).title());
-
-    document.addParagraph(new Paragraph(summary.headline));
+    document.addParagraph(new Paragraph(summary.contact));
+    document.addParagraph(createRoleText(`${summary.headline}`));
     document.addParagraph(createHeading("Education"));
 
     for (const education of educations) {
