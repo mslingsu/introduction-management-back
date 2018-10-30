@@ -64,9 +64,13 @@ function create(data) {
       }
       document.addParagraph(createBullet(certtext))
     }
+    document.Styles.createParagraphStyle("small")
+              .basedOn("Normal")
+              .next("Normal")
+              .quickFormat()
+              .size(16);
 
-
-    document.Footer.createParagraph("This CV was generated in real-time by mslingsu.com.");
+    document.Footer.createParagraph("This CV was generated in real-time by mslingsu.com. Please also view my CV online @ https://mslingsu.com/#/user/" + data[0].userid).style('small');
     return document;
 }
 
