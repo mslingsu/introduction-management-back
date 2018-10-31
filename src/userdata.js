@@ -42,6 +42,7 @@ function update(req, context, callback) {
   var experiences = body.experiences
   var certificates = body.certificates
   var academic = body.academic
+  var awards = body.awards
 
   getItem(body.id, function(err, data){
     console.log("data: ", data);
@@ -66,6 +67,9 @@ function update(req, context, callback) {
       if(!academic){
         academic = userdata.academic
       }
+      if(!awards){
+        awards = userdata.awards
+      }
     }
 
     var updateparam = {
@@ -77,16 +81,16 @@ function update(req, context, callback) {
         "education": education,
         "experiences": experiences,
         "certificates": certificates,
+        "awards": awards,
         "academic": academic
       }
     }
-    console.log("updateparam: ", updateparam);
     docClient.put(updateparam, function(err, data) {
       if (err) {
         console.log(err);
         callback(err);
       } else {
-        console.log("UPDATED SKILL: ", updateparam.Item);
+        console.log("UPDATED: ", updateparam.Item);
       }
     })
   })
