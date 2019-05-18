@@ -10,34 +10,21 @@ AWS.config.update({
 
 var s3 = new AWS.S3();
 
-function exportCV(req, context, callback){
+async function exportCV(req, context){
   // Testing
-  userdata.get(req, context, function(err, config, data){
+  var data = await userdata.get(req, context)
     // TODO implement err handling
-    if(data){
-      var doc = documentCreator.create(data)
-      var packer = new Packer();
-      packer.toBase64String(doc)
-      .then(function(b64string) {
-        var date = new Date().toISOString()
-        var filename = req.params.querystring.id + "_" + date + ".docx"
-        var params = {Bucket: "introduce-ling-thumb", Key: filename, Body: Buffer.from(b64string, "base64")};
-
-        s3.putObject(params, function(err, data) {
-          if (err) {
-            console.log("S3 file upload error", err);
-          }
-          else {
-            var url = s3.getSignedUrl('getObject', {Bucket: "introduce-ling-thumb", Key: filename, Expires: 120});
-            console.log(url);
-            callback(null, null, url);
-          }
-        })
-      })
-    }
-
-  })
-
+    var doc = documentCreator.create(data)
+    const packer = new Packer();
+    var b64string = await packer.toBase64String(doc)
+    var date = new Date().toISOString()
+    var filename = req.params.querystring.id + "_" + date + ".docx"
+    var params = {Bucket: "introduce-ling-thumb", Key: filename, Body: Buffer.from(b64string, "base64")};
+    var upload = await s3.putObject(params).promise()
+    console.log(upload);
+    var url = s3.getSignedUrl('getObject', {Bucket: "introduce-ling-thumb", Key: filename, Expires: 120});
+    console.log(url);
+    return url
 }
 
 

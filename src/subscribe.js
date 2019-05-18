@@ -6,7 +6,7 @@ AWS.config.update({
 
 var sns = new AWS.SNS();
 
-function add(req, context, callback) {
+async function add(req, context) {
   var body = req['body-json'];
   var ep = body.email
 
@@ -16,17 +16,10 @@ function add(req, context, callback) {
     Endpoint: ep
   };
   console.log(params);
-  sns.subscribe(params, function(err, data) {
-    if (err){
-      console.log(err, err.stack);
-      callback(err)
-    }
-    else{
-      console.log(data);
-      var redirectPage = '<html><head><meta http-equiv="refresh" content="5;url=http://mslingsu.com/#/" /></head><body><h1>Redirecting in 5 seconds...</h1></body></html>'
-      callback(null, null, redirectPage)
-    }
-  });
+  var subdata = await sns.subscribe(params).promise()
+  console.log(subdata);
+  var redirectPage = '<html><head><meta http-equiv="refresh" content="5;url=http://mslingsu.com/#/" /></head><body><h1>Redirecting in 5 seconds...</h1></body></html>'
+  return redirectPage
 }
 
 module.exports = {

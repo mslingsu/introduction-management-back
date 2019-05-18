@@ -6,27 +6,19 @@ var userdata = require('./userdata.js')
 var exportCV = require('./export.js')
 var subscribe = require('./subscribe.js')
 
-function route(req, context){
-  function handleResponse(error, response, body){
-    if (error){
-      context.fail(error);
-    } else {
-      context.succeed(body);
-    }
-
-  }
+async function route(req, context){
   switch(req.resource){
     case "getUserData":
-    userdata.get(req, context, handleResponse);
+    return await userdata.get(req, context);
     break;
     case "updateUserData":
-    userdata.update(req, context, handleResponse);
+    return await userdata.update(req, context);
     break;
     case "subscribe":
-    subscribe.add(req, context, handleResponse);
+    return await subscribe.add(req, context);
     break;
     case "download":
-    exportCV.exportCV(req, context, handleResponse);
+    return await exportCV.exportCV(req, context);
     break;
     // case "getQuestions":
     // QuestionsService.getQuestions(req, context, handleResponse);
@@ -39,7 +31,7 @@ function route(req, context){
     // break;
 
     default:
-    context.fail("Invalid resource ["+req.resource+"]");
+    return "Invalid resource ["+req.resource+"]";
     break;
   }
 }

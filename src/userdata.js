@@ -6,18 +6,13 @@ AWS.config.update({
 
 var docClient = new AWS.DynamoDB.DocumentClient();
 
-function get(req, context, callback) {
+async function get(req, context) {
   var userid = req.params.querystring.id
-  getItem(userid, function(err, data){
-    if (err) {
-      callback(err);
-    } else {
-      callback(null, null, data);
-    }
-  })
+  var data = await getItem(userid)
+  return data
 }
 
-function getItem(queryid, callback) {
+async function getItem(queryid) {
   var params = {
     TableName: 'introling-userdata',
     FilterExpression: 'userid = :userid',
@@ -25,16 +20,11 @@ function getItem(queryid, callback) {
         ':userid': queryid
       }
   }
-  docClient.scan(params, function(err, data) {
-    if (err) {
-      callback(err);
-    } else {
-      callback(null, data.Items);
-    }
-  })
+  var data = await docClient.scan(params).promise()
+  return data.Items
 }
 
-function update(req, context, callback) {
+async function update(req, context) {
   var body = req['body-json']
   var summary = body.summary
   var skills = body.skills
@@ -44,56 +34,46 @@ function update(req, context, callback) {
   var academic = body.academic
   var awards = body.awards
 
-  getItem(body.id, function(err, data){
-    console.log("data: ", data);
-    if(data[0]){
-      var userdata = data[0]
-      console.log("userdata: ", userdata)
-      if(!summary){
-        summary = userdata.summary
-      }
-      if(!skills){
-        skills = userdata.skills
-      }
-      if(!education){
-        education = userdata.education
-      }
-      if(!experiences){
-        experiences = userdata.experiences
-      }
-      if(!certificates){
-        certificates = userdata.certificates
-      }
-      if(!academic){
-        academic = userdata.academic
-      }
-      if(!awards){
-        awards = userdata.awards
-      }
+  var data = await getItem(body.id)
+  if(data[0]){
+    var userdata = data[0]
+    if(!summary){
+      summary = userdata.summary
     }
-
-    var updateparam = {
-      TableName: 'introling-userdata',
-      Item: {
-        "userid": body.id,
-        "summary": summary,
-        "skills": skills,
-        "education": education,
-        "experiences": experiences,
-        "certificates": certificates,
-        "awards": awards,
-        "academic": academic
-      }
+    if(!skills){
+      skills = userdata.skills
     }
-    docClient.put(updateparam, function(err, data) {
-      if (err) {
-        console.log(err);
-        callback(err);
-      } else {
-        console.log("UPDATED: ", updateparam.Item);
-      }
-    })
-  })
+    if(!education){
+      education = userdata.education
+    }
+    if(!experiences){
+      experiences = userdata.experiences
+    }
+    if(!certificates){
+      certificates = userdata.certificates
+    }
+    if(!academic){
+      academic = userdata.academic
+    }
+    if(!awards){
+      awards = userdata.awards
+    }
+  }
+  var updateparam = {
+    TableName: 'introling-userdata',
+    Item: {
+      "userid": body.id,
+      "summary": summary,
+      "skills": skills,
+      "education": education,
+      "experiences": experiences,
+      "certificates": certificates,
+      "awards": awards,
+      "academic": academic
+    }
+  }
+  var updates = await docClient.put(updateparam).promise()
+  return updateparam.Item
 
 
 }
